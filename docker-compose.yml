@@ -1,0 +1,17 @@
+services:
+  easytier:
+    image: ghcr.io/tarocats/easytier-docker:latest
+    container_name: easytier
+    restart: always
+    privileged: true # Required for creating TUN device
+    network_mode: host # Host mode is recommended for EasyTier to handle P2P and TUN properly
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ./config:/opt/easytier/config
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Shanghai
