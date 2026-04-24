@@ -13,4 +13,6 @@ services:
       - ./config:/opt/easytier/config
     environment:
       - TZ=Asia/Shanghai
+      - ET_WEB=${ET_WEB:-} # Optional: Web Embed URL
       - GH_TOKEN=${GH_TOKEN:-} # Optional: Your GitHub Personal Access Token
+      - ET_HOSTNAME=${ET_HOSTNAME:-} # Optional: Hostname for EasyTier

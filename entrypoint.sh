@@ -14,7 +14,11 @@ cron
 # 2. Function to start core
 start_core() {
     echo "Starting EasyTier Core..."
-    easytier-core -w udp://127.0.0.1:22020/taro &
+    if [ -n "$ET_WEB" ]; then
+        easytier-core -w "$ET_WEB" &
+    else
+        easytier-core -w udp://127.0.0.1:22020/taro &
+    fi
     CORE_PID=$!
 }
 
@@ -31,7 +35,9 @@ start_web() {
 
 # Initial start
 start_core
-start_web
+if [ -z "$ET_WEB" ]; then
+    start_web
+fi
 
 # Monitor processes
 while true; do
@@ -39,9 +45,11 @@ while true; do
         echo "EasyTier Core stopped. Restarting..."
         start_core
     fi
-    if ! kill -0 $WEB_PID > /dev/null 2>&1; then
-        echo "EasyTier Web stopped. Restarting..."
-        start_web
+    if [ -z "$ET_WEB" ]; then
+        if ! kill -0 $WEB_PID > /dev/null 2>&1; then
+            echo "EasyTier Web stopped. Restarting..."
+            start_web
+        fi
     fi
     sleep 10
 done
