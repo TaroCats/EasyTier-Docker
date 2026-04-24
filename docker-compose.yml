@@ -11,8 +11,6 @@ services:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - ./config:/opt/easytier/config
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
     environment:
       - TZ=Asia/Shanghai
       - GH_TOKEN=${GH_TOKEN:-} # Optional: Your GitHub Personal Access Token
