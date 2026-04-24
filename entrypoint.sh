@@ -3,7 +3,10 @@
 # EasyTier Entrypoint Script
 
 # 1. Setup Cron for Auto-update at 3:00 AM
-echo "0 3 * * * /usr/local/bin/update.sh >> /var/log/easytier_update.log 2>&1" > /etc/cron.d/easytier-update
+# Export environment variables for cron
+printenv | grep -E '^(GH_TOKEN|TZ|PATH)=' > /etc/environment
+
+echo "0 3 * * * . /etc/environment; /usr/local/bin/update.sh >> /var/log/easytier_update.log 2>&1" > /etc/cron.d/easytier-update
 chmod 0644 /etc/cron.d/easytier-update
 crontab /etc/cron.d/easytier-update
 cron
