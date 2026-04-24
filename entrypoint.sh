@@ -11,7 +11,12 @@ chmod 0644 /etc/cron.d/easytier-update
 crontab /etc/cron.d/easytier-update
 cron
 
-# 2. Function to start core
+# 2. Setup Working Directory
+echo "Setting up working directory..."
+mkdir -p /opt/easytier
+cd /opt/easytier
+
+# 3. Function to start core
 start_core() {
     echo "Starting EasyTier Core..."
     if [ -n "$ET_WEB" ]; then
@@ -22,7 +27,7 @@ start_core() {
     CORE_PID=$!
 }
 
-# 3. Function to start web
+# 4. Function to start web
 start_web() {
     echo "Starting EasyTier Web Embed..."
     easytier-web-embed \

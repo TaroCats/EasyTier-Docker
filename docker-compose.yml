@@ -10,7 +10,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ./config:/opt/easytier/config
+      - ./easytier:/opt/easytier
     environment:
       - TZ=Asia/Shanghai
       - ET_WEB=${ET_WEB:-} # Optional: Web Embed URL
