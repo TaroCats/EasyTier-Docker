@@ -25,9 +25,17 @@ COPY update.sh /usr/local/bin/update.sh
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/update.sh /usr/local/bin/entrypoint.sh
 
-# Initial installation of EasyTier binaries
-# This will use the logic in update.sh to fetch the latest version during build
-RUN /usr/local/bin/update.sh
+# Use build arguments to pass binaries from host (GitHub Action)
+ARG TARGETARCH
+ARG TARGETVARIANT
+
+# Copy pre-downloaded binaries based on architecture
+# Expected structure in build context:
+# dist/amd64/easytier-core ...
+# dist/arm64/easytier-core ...
+# dist/armv7/easytier-core ...
+COPY dist/${TARGETARCH}${TARGETVARIANT}/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/easytier-core /usr/local/bin/easytier-cli /usr/local/bin/easytier-web-embed || true
 
 # Expose ports
 # Core listener (default 11010)

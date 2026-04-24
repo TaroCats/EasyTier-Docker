@@ -36,6 +36,34 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get latest EasyTier version
+        id: get_version
+        run: |
+          VERSION=$(curl -s "https://api.github.com/repos/EasyTier/EasyTier/tags?per_page=1" | grep -m 1 '"name":' | sed -E 's/.*"name": *"([^"]+)".*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Download and prepare binaries
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          mkdir -p dist/amd64 dist/arm64 dist/armv7
+          
+          # amd64 (x86_64)
+          curl -L "https://github.com/EasyTier/EasyTier/releases/download/${VERSION}/easytier-linux-x86_64-${VERSION}.zip" -o amd64.zip
+          unzip amd64.zip -d dist/amd64_tmp
+          mv dist/amd64_tmp/easytier-linux-x86_64/* dist/amd64/
+          
+          # arm64 (aarch64)
+          curl -L "https://github.com/EasyTier/EasyTier/releases/download/${VERSION}/easytier-linux-aarch64-${VERSION}.zip" -o arm64.zip
+          unzip arm64.zip -d dist/arm64_tmp
+          mv dist/arm64_tmp/easytier-linux-aarch64/* dist/arm64/
+          
+          # armv7
+          curl -L "https://github.com/EasyTier/EasyTier/releases/download/${VERSION}/easytier-linux-armv7-${VERSION}.zip" -o armv7.zip
+          unzip armv7.zip -d dist/armv7_tmp
+          mv dist/armv7_tmp/easytier-linux-armv7/* dist/armv7/
+          
+          rm -rf *.zip dist/*_tmp
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
