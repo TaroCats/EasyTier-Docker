@@ -22,7 +22,9 @@ start_core() {
     if [ -n "$ET_WEB" ]; then
         easytier-core -w "$ET_WEB" &
     else
-        easytier-core -w udp://127.0.0.1:22020/taro &
+        # Use default user 'admin' if WEB_USER is not set or empty
+        USER_NAME="${WEB_USER:-admin}"
+        easytier-core -w udp://127.0.0.1:22020/$USER_NAME &
     fi
     CORE_PID=$!
 }
