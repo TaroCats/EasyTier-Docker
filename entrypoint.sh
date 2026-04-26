@@ -19,13 +19,17 @@ cd /opt/easytier
 # 3. Function to start core
 start_core() {
     echo "Starting EasyTier Core..."
-    if [ -n "$ET_WEB" ]; then
-        easytier-core -w "$ET_WEB" &
-    else
-        # Use default user 'admin' if WEB_USER is not set or empty
-        USER_NAME="${WEB_USER:-admin}"
-        easytier-core -w udp://127.0.0.1:22020/$USER_NAME &
-    fi
+    
+    # 构建基础参数
+    local ET_ARGS=()
+    
+    # 处理 Web 参数
+    ET_ARGS+=("-w" "${ET_WEB:-udp://127.0.0.1:22020/${WEB_USER:-admin}}")
+    
+    # 处理 Machine ID 参数
+    [ -n "$ET_MACHINE_ID" ] && ET_ARGS+=("--machine-id" "$ET_MACHINE_ID")
+    
+    easytier-core "${ET_ARGS[@]}" &
     CORE_PID=$!
 }
 
