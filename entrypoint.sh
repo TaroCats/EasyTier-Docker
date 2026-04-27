@@ -2,7 +2,7 @@
 ###
  # @Author: taro etsy@live.com
  # @LastEditors: taro etsy@live.com
- # @LastEditTime: 2026-04-27 16:35:03
+ # @LastEditTime: 2026-04-27 16:37:43
  # @Description: 
 ### 
 
@@ -31,12 +31,8 @@ start_core() {
     
     # 处理 Web 参数
     ET_ARGS+=("-w" "${ET_WEB:-udp://127.0.0.1:22020/${WEB_USER:-admin}}")
-    
     # 处理 Machine ID 参数
     [ -n "$ET_MACHINE_ID" ] && ET_ARGS+=("--machine-id" "$ET_MACHINE_ID")
-    
-    # 处理 Hostname 参数
-    [ -n "$ET_HOSTNAME" ] && ET_ARGS+=("--hostname" "$ET_HOSTNAME")
     
     easytier-core "${ET_ARGS[@]}" &
     CORE_PID=$!
