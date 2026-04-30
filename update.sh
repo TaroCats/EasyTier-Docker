@@ -24,14 +24,14 @@ case "$platform" in
 esac
 
 # 2. Get Latest Tag
-CURL_ARGS=("-s")
+CURL_ARGS=("-s" "-f") # Added -f to fail on server errors
 [ -n "$GH_TOKEN" ] && CURL_ARGS+=("-H" "Authorization: Bearer $GH_TOKEN")
 
-LATEST_VERSION=$(curl "${CURL_ARGS[@]}" "https://api.github.com/repos/EasyTier/EasyTier/tags?per_page=1" | grep -m 1 '"name":' | sed -E 's/.*"name": *"([^"]+)".*/\1/')
-LATEST_VERSION=$(echo -e "$LATEST_VERSION" | tr -d '[:space:]')
+# Fetch tags and extract the name of the first tag
+LATEST_VERSION=$(curl "${CURL_ARGS[@]}" "https://api.github.com/repos/EasyTier/EasyTier/tags?per_page=1" | grep -m 1 '"name":' | sed -E 's/.*"name": *"([^"]+)".*/\1/' | tr -d '[:space:]')
 
 if [ -z "$LATEST_VERSION" ]; then
-    echo -e "${RED_COLOR}Failed to fetch latest version tag.${RES}"
+    echo -e "${RED_COLOR}Failed to fetch latest version tag from $VER_API.${RES}"
     exit 1
 fi
 
