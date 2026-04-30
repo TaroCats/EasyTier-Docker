@@ -42,10 +42,16 @@ echo -e "Latest version: ${GREEN_COLOR}$LATEST_VERSION${RES}"
 # Check current version (if exists)
 if [ -f "$BIN_PATH/easytier-core" ]; then
     CURRENT_VERSION=$($BIN_PATH/easytier-core --version 2>&1 | awk '{print $2}')
-    if [ "$CURRENT_VERSION" == "$LATEST_VERSION" ]; then
-        echo "Already at latest version ($CURRENT_VERSION). Skipping update."
+    
+    # Clean version strings (remove 'v' prefix and whitespace for robust comparison)
+    CLEAN_CURRENT=$(echo "$CURRENT_VERSION" | sed 's/^v//' | tr -d '[:space:]')
+    CLEAN_LATEST=$(echo "$LATEST_VERSION" | sed 's/^v//' | tr -d '[:space:]')
+    
+    if [ -n "$CLEAN_CURRENT" ] && [ "$CLEAN_CURRENT" == "$CLEAN_LATEST" ]; then
+        echo -e "${GREEN_COLOR}Current version ($CURRENT_VERSION) is already up to date. Skipping update.${RES}"
         exit 0
     fi
+    echo -e "Current version: $CURRENT_VERSION, New version: $LATEST_VERSION. Proceeding with update..."
 fi
 
 # 3. Download and Extract
