@@ -13,6 +13,7 @@ services:
       - ./easytier:/opt/easytier
     environment:
       - TZ=Asia/Shanghai
+      - VER_API=${VER_API:-} # Optional: Custom GitHub API URL
       - ET_WEB=${ET_WEB:-} # Optional: Web Embed URL
       - GH_TOKEN=${GH_TOKEN:-} # Optional: Your GitHub Personal Access Token
       - WEB_USER=${WEB_USER:-admin} # Required: Web User for EasyTier
