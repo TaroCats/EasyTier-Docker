@@ -57,12 +57,12 @@ fi
 
 # Monitor processes
 while true; do
-    if ! kill -0 $CORE_PID > /dev/null 2>&1; then
+    if ! kill -0 "$CORE_PID" > /dev/null 2>&1; then
         echo "EasyTier Core stopped. Restarting..."
         start_core
     fi
     if [ -z "$ET_WEB" ]; then
-        if ! kill -0 $WEB_PID > /dev/null 2>&1; then
+        if ! kill -0 "$WEB_PID" > /dev/null 2>&1; then
             echo "EasyTier Web stopped. Restarting..."
             start_web
         fi
