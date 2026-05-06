@@ -10,7 +10,7 @@
 
 # 1. Setup Cron for Auto-update and Log Cleanup
 # Export environment variables for cron
-printenv | grep -E '^(GH_TOKEN|TZ|PATH|VER_API)=' > /etc/environment
+printenv | grep -E '^(GH_TOKEN|TZ|PATH|VER_API|WEB_USER|ET_)=' > /etc/environment
 
 cat > /etc/cron.d/easytier <<EOF
 # EasyTier Auto-update at 3:00 AM
