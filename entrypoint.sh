@@ -8,13 +8,19 @@
 
 # EasyTier Entrypoint Script
 
-# 1. Setup Cron for Auto-update at 3:00 AM
+# 1. Setup Cron for Auto-update and Log Cleanup
 # Export environment variables for cron
 printenv | grep -E '^(GH_TOKEN|TZ|PATH|VER_API)=' > /etc/environment
 
-echo "0 3 * * * . /etc/environment; /usr/local/bin/update.sh >> /var/log/easytier_update.log 2>&1" > /etc/cron.d/easytier-update
-chmod 0644 /etc/cron.d/easytier-update
-crontab /etc/cron.d/easytier-update
+cat > /etc/cron.d/easytier <<EOF
+# EasyTier Auto-update at 3:00 AM
+0 3 * * * . /etc/environment; /usr/local/bin/update.sh >> /var/log/easytier_update.log 2>&1
+# EasyTier Log Cleanup every hour
+0 * * * * /usr/local/bin/cleanup_logs.sh >> /var/log/easytier_cleanup.log 2>&1
+EOF
+
+chmod 0644 /etc/cron.d/easytier
+crontab /etc/cron.d/easytier
 cron
 
 # 2. Setup Working Directory

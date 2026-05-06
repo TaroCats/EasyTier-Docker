@@ -22,8 +22,9 @@ RUN mkdir -p /opt/easytier /var/log/easytier
 
 # Copy scripts
 COPY update.sh /usr/local/bin/update.sh
+COPY cleanup_logs.sh /usr/local/bin/cleanup_logs.sh
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/update.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/update.sh /usr/local/bin/cleanup_logs.sh /usr/local/bin/entrypoint.sh
 
 # Use build arguments to pass binaries from host (GitHub Action)
 ARG TARGETARCH
