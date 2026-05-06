@@ -2,7 +2,7 @@
 ###
  # @Author: taro etsy@live.com
  # @LastEditors: taro etsy@live.com
- # @LastEditTime: 2026-04-27 16:37:43
+ # @LastEditTime: 2026-05-06 08:53:48
  # @Description: 
 ### 
 
@@ -15,8 +15,8 @@ printenv | grep -E '^(GH_TOKEN|TZ|PATH|VER_API)=' > /etc/environment
 cat > /etc/cron.d/easytier <<EOF
 # EasyTier Auto-update at 3:00 AM
 0 3 * * * . /etc/environment; /usr/local/bin/update.sh >> /var/log/easytier_update.log 2>&1
-# EasyTier Log Cleanup every hour
-0 * * * * /usr/local/bin/cleanup_logs.sh >> /var/log/easytier_cleanup.log 2>&1
+# EasyTier Log Cleanup at 3:00 AM
+0 3 * * * /usr/local/bin/cleanup_logs.sh >> /var/log/easytier_cleanup.log 2>&1
 EOF
 
 chmod 0644 /etc/cron.d/easytier
