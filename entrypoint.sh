@@ -49,7 +49,7 @@ start_web() {
     echo "Starting EasyTier Web Embed..."
     easytier-web-embed \
         --api-server-port 11211 \
-        --api-host "http://127.0.0.1:11211" \
+        --api-host "${ET_API_HOST:-http://127.0.0.1:11211}" \
         --config-server-port 22020 \
         --config-server-protocol udp &
     WEB_PID=$!
