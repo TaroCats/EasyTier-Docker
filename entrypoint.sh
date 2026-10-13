@@ -36,7 +36,7 @@ start_core() {
     local ET_ARGS=()
     
     # 处理 Web 参数
-    ET_ARGS+=("-w" "${ET_WEB:-udp://127.0.0.1:22020/${WEB_USER:-admin}}")
+    ET_ARGS+=("-w" "${ET_WEB:-${ET_API_PROTOCOL:-tcp}://127.0.0.1:22020/${WEB_USER:-admin}}")
     # 处理 Machine ID 参数
     [ -n "$ET_MACHINE_ID" ] && ET_ARGS+=("--machine-id" "$ET_MACHINE_ID")
     
@@ -51,7 +51,7 @@ start_web() {
         --api-server-port 11211 \
         --api-host "${ET_API_HOST:-http://127.0.0.1:11211}" \
         --config-server-port 22020 \
-        --config-server-protocol udp &
+        --config-server-protocol "${ET_API_PROTOCOL:-tcp}" &
     WEB_PID=$!
 }
 

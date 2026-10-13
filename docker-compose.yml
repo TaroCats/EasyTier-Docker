@@ -20,3 +20,4 @@ services:
       - ET_HOSTNAME=${ET_HOSTNAME:-} # Optional: Hostname for EasyTier
       - ET_MACHINE_ID=${ET_MACHINE_ID:-} # Optional: Machine ID for EasyTier
       - ET_API_HOST=${ET_API_HOST:-} # Optional: API Host for EasyTier
+      - ET_API_PROTOCOL=${ET_API_PROTOCOL:-tcp} # Optional: API Protocol for EasyTier
